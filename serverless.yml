@@ -1,0 +1,37 @@
+service: covid-19-ukraine
+
+plugins:
+  - serverless-plugin-typescript
+
+custom:
+  settings:
+    ACCOUNT_ID: "338027781746"
+    REGION: "eu-central-1"
+    DATABASE_NAME: "covid-19-ukraine"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  region: eu-central-1
+  stage: prod
+  environment: ${self:custom.settings}
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:sendMessage"
+      Resource: "arn:aws:sqs:${self:provider.region}:${self:provider.environment.ACCOUNT_ID}:covid-19*"
+    - Effect: "Allow"
+      Action:
+        - "ssm:Describe*"
+        - "ssm:Get*"
+        - "ssm:List*"
+      Resource: "*"
+
+functions:
+  test:
+    handler: handlers/testHandler.handler
+    timeout: 30
+    events:
+      - schedule: rate(1 minute)
