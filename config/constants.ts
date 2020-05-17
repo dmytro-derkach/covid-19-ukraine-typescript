@@ -12,4 +12,5 @@ export default {
 
   API_DATA_LINK: "https://api-covid19.rnbo.gov.ua/data?to={date}",
   FIRST_CASES_DATE: "03-02-2020",
+  COMMIT_MESSAGE: "Automated update",
 };

@@ -34,7 +34,7 @@ export const pushFileContent = async (
     contentSHA = await getContentSHAByPath(path, branch);
   } catch {}
   const params: any = {
-    message: "Automated update",
+    message: constants.COMMIT_MESSAGE,
     content: encodedContent,
   };
   if (contentSHA) {
