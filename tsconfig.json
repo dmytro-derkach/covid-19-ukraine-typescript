@@ -16,6 +16,7 @@
       "@constants": ["config/constants.ts"],
       "@vars": ["config/vars.ts"],
       "@middlewares/*": ["middlewares/*"],
+      "@models/*": ["models/*"],
       "@services/*": ["services/*"]
     },
     "noImplicitAny": true,

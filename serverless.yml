@@ -30,8 +30,8 @@ provider:
       Resource: "*"
 
 functions:
-  test:
-    handler: handlers/testHandler.handler
+  actualScheduler:
+    handler: handlers/actualScheduler.handler
     timeout: 30
     events:
       - schedule: rate(1 minute)

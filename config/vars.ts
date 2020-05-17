@@ -8,5 +8,4 @@ export default {
   getDbUrl,
   getGithubAuth,
   databaseName: process.env.DATABASE_NAME,
-  region: process.env.REGION,
 };

@@ -6,6 +6,9 @@ export default {
   ARCHIVE_DATA_BRANCH: "master",
 
   DATE_FORMAT: "MM-DD-YYYY",
+  CURRENT_DATE_FORMAT: "YYYY-MM-DD",
 
   SSM_PATH: "/covid-19/prod",
+
+  API_DATA_LINK: "https://api-covid19.rnbo.gov.ua/data?to={date}",
 };
