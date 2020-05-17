@@ -8,4 +8,8 @@ export default {
   getDbUrl,
   getGithubAuth,
   databaseName: process.env.DATABASE_NAME,
+  region: process.env.REGION,
+  archiveDataProcessorQueueUrl: String(
+    process.env.ARCHIVE_DATA_PROCESSOR_QUEUE_URL
+  ),
 };

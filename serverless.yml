@@ -8,6 +8,7 @@ custom:
     ACCOUNT_ID: "338027781746"
     REGION: "eu-central-1"
     DATABASE_NAME: "covid-19-ukraine"
+    ARCHIVE_DATA_PROCESSOR_QUEUE_URL: "https://sqs.eu-central-1.amazonaws.com/338027781746/covid-19-ukraine-archive-data-processor"
 
 provider:
   name: aws
@@ -41,3 +42,12 @@ functions:
     timeout: 30
     events:
       - schedule: cron(0 0 * * ? *)
+
+  archiveDataProcessor:
+    handler: handlers/archiveDataProcessor.handler
+    timeout: 30
+    events:
+      - sqs:
+          arn: "arn:aws:sqs:${self:provider.region}:${self:provider.environment.ACCOUNT_ID}:covid-19-ukraine-archive-data-processor"
+          batchSize: 1
+          enabled: true

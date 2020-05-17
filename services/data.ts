@@ -5,6 +5,8 @@ import crypto from "crypto";
 import * as csv from "csv-string";
 import contentSHA from "@models/contentSHA";
 import { pushFileContent } from "@services/github";
+import { sendMessageToSQS } from "@services/queue";
+import vars from "@vars";
 
 const getDataByDate = async (date: string): Promise<Array<any>> => {
   const response = await axios.get(
@@ -119,4 +121,8 @@ export const processArchiveData = async (): Promise<void> => {
     )}.csv`,
     constants.ARCHIVE_DATA_BRANCH
   );
+};
+
+export const startProcessArchiveData = async (): Promise<void> => {
+  await sendMessageToSQS(vars.archiveDataProcessorQueueUrl, {});
 };
