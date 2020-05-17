@@ -8,6 +8,7 @@ import { pushFileContent } from "@services/github";
 
 export const processActualData = async (): Promise<void> => {
   const currentDate = moment().format(constants.CURRENT_DATE_FORMAT);
+  const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const response = await axios.get(
     constants.API_DATA_LINK.replace("{date}", currentDate)
   );
@@ -37,7 +38,7 @@ export const processActualData = async (): Promise<void> => {
         el.country,
         el.label.en === "Kyiv" ? "Kyiv" : "",
         el.label.en === "Kyiv" ? "Kyivska" : el.label.en,
-        moment().format("YYYY-MM-DD HH:mm:ss"),
+        currentTime,
         el.lat,
         el.lng,
         el.confirmed,
