@@ -35,3 +35,9 @@ functions:
     timeout: 30
     events:
       - schedule: rate(1 minute)
+
+  archiveScheduler:
+    handler: handlers/archiveScheduler.handler
+    timeout: 30
+    events:
+      - schedule: cron(0 0 * * ? *)
