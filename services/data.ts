@@ -8,14 +8,67 @@ import { pushFileContent } from "@services/github";
 import { sendMessageToSQS } from "@services/queue";
 import vars from "@vars";
 
-const getDataByDate = async (date: string): Promise<Array<any>> => {
+interface ICaseLabel {
+  en: string;
+  uk: string;
+}
+
+interface ICasesResponse {
+  id: number;
+  label: ICaseLabel;
+  country: number;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+  existing: number;
+  suspicion: number;
+  lat: number;
+  lng: number;
+  delta_confirmed: number;
+  delta_deaths: number;
+  delta_recovered: number;
+  delta_existing: number;
+  delta_suspicion: number;
+}
+
+interface ICasesData {
+  label: string;
+  country: number;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+  existing: number;
+  lat: number;
+  lng: number;
+  deltaConfirmed: number;
+  deltaDeaths: number;
+  deltaRecovered: number;
+  deltaExisting: number;
+}
+
+const getDataByDate = async (date: string): Promise<Array<ICasesData>> => {
   const response = await axios.get(
     constants.API_DATA_LINK.replace("{date}", date)
   );
-  return response.data.ukraine;
+  return response.data.ukraine.map(
+    (el: ICasesResponse): ICasesData => ({
+      country: el.country,
+      label: el.label.en,
+      lat: el.lat,
+      lng: el.lng,
+      confirmed: el.confirmed,
+      deaths: el.deaths,
+      recovered: el.recovered,
+      existing: el.existing,
+      deltaConfirmed: el.delta_confirmed,
+      deltaDeaths: el.delta_deaths,
+      deltaRecovered: el.delta_recovered,
+      deltaExisting: el.delta_existing,
+    })
+  );
 };
 
-const getCSVData = (data: Array<any>): string => {
+const getCSVData = (data: Array<ICasesData>): string => {
   const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
   let content = csv.stringify([
     "FIPS",
@@ -38,8 +91,8 @@ const getCSVData = (data: Array<any>): string => {
     if (el.confirmed) {
       content += csv.stringify([
         el.country,
-        el.label.en === "Kyiv" ? "Kyiv" : "",
-        el.label.en === "Kyiv" ? "Kyivska" : el.label.en,
+        el.label === "Kyiv" ? "Kyiv" : "",
+        el.label === "Kyiv" ? "Kyivska" : el.label,
         "Ukraine",
         currentTime,
         el.lat,
@@ -48,10 +101,10 @@ const getCSVData = (data: Array<any>): string => {
         el.deaths,
         el.recovered,
         el.existing,
-        el.delta_confirmed,
-        el.delta_deaths,
-        el.delta_recovered,
-        el.delta_existing,
+        el.deltaConfirmed,
+        el.deltaDeaths,
+        el.deltaRecovered,
+        el.deltaExisting,
       ]);
     }
   }
