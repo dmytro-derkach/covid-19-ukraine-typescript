@@ -35,7 +35,7 @@ functions:
     handler: handlers/actualScheduler.handler
     timeout: 30
     events:
-      - schedule: cron(* 9-23 * * ? *)
+      - schedule: cron(* 6-23 * * ? *)
 
   archiveScheduler:
     handler: handlers/archiveScheduler.handler
