@@ -10,7 +10,7 @@
   "dependencies": {
     "@middy/core": "^1.0.0-beta.8",
     "@middy/ssm": "^1.0.0-beta.8",
-    "aws-sdk": "^2.678.0",
+    "aws-sdk": "^2.814.0",
     "axios": "^0.19.2",
     "csv-string": "^3.2.0",
     "module-alias": "^2.2.2",
